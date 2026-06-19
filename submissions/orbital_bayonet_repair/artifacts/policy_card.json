@@ -1,0 +1,44 @@
+{
+  "policy": "hybrid stage-prior plus visual/contact residual controller",
+  "observations": [
+    "plug and socket frame positions",
+    "plug velocity",
+    "five fingertip touch sensors",
+    "collar joint",
+    "verification joint"
+  ],
+  "actions": [
+    "gantry xyz",
+    "wrist yaw/pitch/roll",
+    "ten finger joints",
+    "locking collar",
+    "verification channel"
+  ],
+  "recovery_cases": [
+    "camera calibration bias",
+    "insertion misalignment",
+    "proof-load impulse",
+    "contact imbalance"
+  ],
+  "closed_loop_evidence": {
+    "corrections_applied": 29698,
+    "peak_residual_action_m": 0.02342,
+    "median_raw_servo_error_m": 0.008615,
+    "median_corrected_servo_error_m": 0.001551,
+    "median_error_reduction_pct": 82.0,
+    "minimum_insertion_error_m": 0.004042,
+    "peak_proof_load_n": 8.9987
+  },
+  "stress_evaluation": {
+    "stage_prior": {
+      "success_rate": 0.0,
+      "median_final_error_m": 0.045287,
+      "p95_final_error_m": 0.082816
+    },
+    "closed_loop_residual": {
+      "success_rate": 1.0,
+      "median_final_error_m": 0.001332,
+      "p95_final_error_m": 0.002333
+    }
+  }
+}

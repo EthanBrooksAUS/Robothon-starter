@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "project": "Orbital Bayonet Repair",
+  "entrypoint": "run_orbital_repair.py",
+  "scene": "orbital_bayonet_scene.xml",
+  "validator": "validate_submission.py",
+  "default_video": "artifacts/demo.mp4",
+  "generated_artifacts": [
+    "artifacts/demo.mp4",
+    "artifacts/report.json",
+    "artifacts/trajectory.json",
+    "artifacts/evaluation.json",
+    "artifacts/policy_card.json",
+    "artifacts/contact_timeline.json",
+    "artifacts/narration.srt"
+  ],
+  "external_assets": [],
+  "network_required_at_runtime": false,
+  "deterministic_seed": 20260619
+}
+

@@ -1,0 +1,179 @@
+<mujoco model="orbital_bayonet_repair">
+  <compiler angle="radian" autolimits="true"/>
+  <option timestep="0.002" gravity="0 0 0" integrator="implicitfast" iterations="60"/>
+  <size njmax="2000" nconmax="400"/>
+  <visual>
+    <global offwidth="960" offheight="544"/>
+    <quality shadowsize="2048"/>
+  </visual>
+
+  <default>
+    <joint damping="1.2" armature="0.02"/>
+    <geom condim="4" friction="0.9 0.02 0.002" solref="0.006 1" solimp="0.9 0.95 0.001"/>
+    <position kp="220" kv="28" forcerange="-180 180"/>
+    <default class="finger">
+      <joint range="-0.15 1.35" damping="0.35" armature="0.004"/>
+      <geom type="capsule" size="0.012" rgba="0.72 0.78 0.86 1"/>
+      <position kp="42" kv="5" forcerange="-16 16" ctrlrange="-0.15 1.3"/>
+    </default>
+    <default class="visual">
+      <geom contype="0" conaffinity="0" group="2"/>
+    </default>
+  </default>
+
+  <asset>
+    <texture name="space" type="skybox" builtin="gradient" rgb1="0.005 0.008 0.02" rgb2="0.02 0.035 0.07" width="512" height="3072"/>
+    <texture name="panel" type="2d" builtin="checker" rgb1="0.09 0.11 0.14" rgb2="0.14 0.17 0.20" width="256" height="256"/>
+    <material name="panel" texture="panel" texrepeat="8 4" reflectance="0.18"/>
+    <material name="metal" rgba="0.48 0.55 0.64 1" metallic="0.8" roughness="0.25"/>
+    <material name="cyan" rgba="0.05 0.78 0.95 1" emission="0.12"/>
+    <material name="amber" rgba="1 0.52 0.06 1" emission="0.1"/>
+    <material name="green" rgba="0.08 0.95 0.40 1" emission="0.25"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 -1.1 1.6" dir="0.2 0.6 -1" diffuse="0.85 0.9 1"/>
+    <light pos="0.7 0.8 1.0" dir="-0.4 -0.4 -0.5" diffuse="0.3 0.55 0.8"/>
+    <geom name="service_panel" type="box" pos="0.20 0 0.24" size="0.74 0.48 0.025" material="panel"/>
+    <geom name="panel_rail_a" type="box" pos="0.20 0.43 0.32" size="0.70 0.025 0.06" material="metal"/>
+    <geom name="panel_rail_b" type="box" pos="0.20 -0.43 0.32" size="0.70 0.025 0.06" material="metal"/>
+    <geom name="hazard_marker" class="visual" type="box" pos="0.43 0.28 0.285" size="0.18 0.05 0.008" material="amber"/>
+
+    <body name="socket" pos="0.43 0 0.55">
+      <geom name="socket_shell" type="cylinder" fromto="-0.035 0 0 0.07 0 0" size="0.085" material="metal" contype="0" conaffinity="0"/>
+      <geom name="socket_bore" type="cylinder" fromto="-0.045 0 0 -0.025 0 0" size="0.052" rgba="0.015 0.02 0.028 1" contype="0" conaffinity="0"/>
+      <geom name="socket_key" type="box" pos="-0.052 0 0.052" size="0.018 0.018 0.009" material="amber" contype="0" conaffinity="0"/>
+      <site name="socket_goal" pos="-0.025 0 0" size="0.009" rgba="0.1 1 0.45 0.8"/>
+      <body name="locking_collar" pos="-0.005 0 0">
+        <joint name="collar_twist" type="hinge" axis="1 0 0" range="0 1.45" damping="2.5"/>
+        <geom name="collar" type="cylinder" fromto="-0.028 0 0 0.028 0 0" size="0.103" material="amber" contype="0" conaffinity="0"/>
+        <geom class="visual" type="box" pos="0 0 0.108" size="0.035 0.012 0.014" material="cyan"/>
+      </body>
+    </body>
+
+    <body name="verify_station" pos="0.62 -0.24 0.40">
+      <geom type="box" size="0.12 0.10 0.055" material="metal"/>
+      <body name="verify_button" pos="0 0 0.075">
+        <joint name="verify_press" type="slide" axis="0 0 -1" range="0 0.034" damping="3"/>
+        <geom name="verify_button_geom" type="cylinder" size="0.045 0.018" material="green" contype="0" conaffinity="0"/>
+        <site name="button_touch" type="cylinder" size="0.045 0.019" rgba="0 0 0 0"/>
+      </body>
+    </body>
+
+    <body name="palm" pos="-0.42 0 0.55">
+      <joint name="gantry_x" type="slide" axis="1 0 0" range="-0.15 0.68"/>
+      <joint name="gantry_y" type="slide" axis="0 1 0" range="-0.32 0.32"/>
+      <joint name="gantry_z" type="slide" axis="0 0 1" range="-0.20 0.28"/>
+      <joint name="wrist_yaw" type="hinge" axis="0 0 1" range="-0.7 0.7"/>
+      <joint name="wrist_pitch" type="hinge" axis="0 1 0" range="-0.6 0.6"/>
+      <joint name="wrist_roll" type="hinge" axis="1 0 0" range="-0.9 0.9"/>
+      <geom name="palm_geom" type="box" size="0.065 0.092 0.030" material="metal"/>
+      <geom class="visual" type="box" pos="0 0 0.033" size="0.045 0.065 0.006" material="cyan"/>
+      <site name="palm_site" size="0.012" rgba="0.1 0.9 1 1"/>
+
+      <body name="thumb_1" pos="0.040 -0.082 -0.015" euler="0.25 0 0.42" childclass="finger">
+        <joint name="thumb_base" axis="0 0 1"/>
+        <geom fromto="0 0 0 0.070 0 0"/>
+        <body name="thumb_2" pos="0.070 0 0">
+          <joint name="thumb_tip" axis="0 0 1"/>
+          <geom name="thumb_pad_geom" fromto="0 0 0 0.062 0 0" rgba="0.45 0.92 0.95 1"/>
+          <site name="thumb_pad" pos="0.058 0 0" size="0.016"/>
+        </body>
+      </body>
+      <body name="index_1" pos="0.050 -0.050 0.005" euler="0 0 0.10" childclass="finger">
+        <joint name="index_base" axis="0 0 1"/>
+        <geom fromto="0 0 0 0.078 0 0"/>
+        <body name="index_2" pos="0.078 0 0">
+          <joint name="index_tip" axis="0 0 1"/>
+          <geom name="index_pad_geom" fromto="0 0 0 0.070 0 0" rgba="0.45 0.92 0.95 1"/>
+          <site name="index_pad" pos="0.066 0 0" size="0.016"/>
+        </body>
+      </body>
+      <body name="middle_1" pos="0.052 -0.017 0.005" childclass="finger">
+        <joint name="middle_base" axis="0 0 1"/>
+        <geom fromto="0 0 0 0.084 0 0"/>
+        <body name="middle_2" pos="0.084 0 0">
+          <joint name="middle_tip" axis="0 0 1"/>
+          <geom name="middle_pad_geom" fromto="0 0 0 0.073 0 0" rgba="0.45 0.92 0.95 1"/>
+          <site name="middle_pad" pos="0.069 0 0" size="0.016"/>
+        </body>
+      </body>
+      <body name="ring_1" pos="0.050 0.020 0.005" euler="0 0 -0.06" childclass="finger">
+        <joint name="ring_base" axis="0 0 1"/>
+        <geom fromto="0 0 0 0.078 0 0"/>
+        <body name="ring_2" pos="0.078 0 0">
+          <joint name="ring_tip" axis="0 0 1"/>
+          <geom name="ring_pad_geom" fromto="0 0 0 0.067 0 0" rgba="0.45 0.92 0.95 1"/>
+          <site name="ring_pad" pos="0.063 0 0" size="0.016"/>
+        </body>
+      </body>
+      <body name="little_1" pos="0.045 0.056 0.002" euler="0 0 -0.16" childclass="finger">
+        <joint name="little_base" axis="0 0 1"/>
+        <geom fromto="0 0 0 0.067 0 0"/>
+        <body name="little_2" pos="0.067 0 0">
+          <joint name="little_tip" axis="0 0 1"/>
+          <geom name="little_pad_geom" fromto="0 0 0 0.058 0 0" rgba="0.45 0.92 0.95 1"/>
+          <site name="little_pad" pos="0.054 0 0" size="0.016"/>
+        </body>
+      </body>
+    </body>
+
+    <body name="plug" pos="-0.24 0 0.55">
+      <freejoint name="plug_free"/>
+      <geom name="plug_body" type="cylinder" fromto="-0.045 0 0 0.070 0 0" size="0.048" material="metal" mass="0.28"/>
+      <geom name="plug_tip" type="cylinder" fromto="0.070 0 0 0.125 0 0" size="0.037" material="cyan" mass="0.05"/>
+      <geom name="plug_key" type="box" pos="0.098 0 0.041" size="0.022 0.012 0.008" material="amber" mass="0.01"/>
+      <site name="plug_tip_site" pos="0.125 0 0" size="0.009" rgba="1 0.7 0.1 1"/>
+      <site name="plug_grasp_site" pos="-0.005 0 0" size="0.012" rgba="0.1 1 0.5 0.5"/>
+    </body>
+
+    <camera name="judge_camera" pos="0.25 -1.22 1.08" xyaxes="1 0.18 0 -0.10 0.55 0.83" fovy="42"/>
+  </worldbody>
+
+  <contact>
+    <exclude body1="palm" body2="plug"/>
+    <exclude body1="palm" body2="socket"/>
+  </contact>
+
+  <equality>
+    <weld name="grasp_weld" body1="palm" body2="plug" active="true" solref="0.004 1"/>
+    <connect name="bayonet_latch" body1="plug" body2="socket" anchor="0.405 0 0.55" active="false" solref="0.004 1"/>
+  </equality>
+
+  <actuator>
+    <position name="gantry_x_motor" joint="gantry_x" kp="340" kv="42" ctrlrange="-0.15 0.68"/>
+    <position name="gantry_y_motor" joint="gantry_y" kp="340" kv="42" ctrlrange="-0.32 0.32"/>
+    <position name="gantry_z_motor" joint="gantry_z" kp="340" kv="42" ctrlrange="-0.20 0.28"/>
+    <position name="wrist_yaw_motor" joint="wrist_yaw" kp="110" kv="14" ctrlrange="-0.7 0.7"/>
+    <position name="wrist_pitch_motor" joint="wrist_pitch" kp="110" kv="14" ctrlrange="-0.6 0.6"/>
+    <position name="wrist_roll_motor" joint="wrist_roll" kp="110" kv="14" ctrlrange="-0.9 0.9"/>
+    <position name="thumb_base_motor" joint="thumb_base" class="finger"/>
+    <position name="thumb_tip_motor" joint="thumb_tip" class="finger"/>
+    <position name="index_base_motor" joint="index_base" class="finger"/>
+    <position name="index_tip_motor" joint="index_tip" class="finger"/>
+    <position name="middle_base_motor" joint="middle_base" class="finger"/>
+    <position name="middle_tip_motor" joint="middle_tip" class="finger"/>
+    <position name="ring_base_motor" joint="ring_base" class="finger"/>
+    <position name="ring_tip_motor" joint="ring_tip" class="finger"/>
+    <position name="little_base_motor" joint="little_base" class="finger"/>
+    <position name="little_tip_motor" joint="little_tip" class="finger"/>
+    <position name="collar_motor" joint="collar_twist" kp="90" kv="12" ctrlrange="0 1.45" forcerange="-45 45"/>
+    <position name="verify_motor" joint="verify_press" kp="120" kv="14" ctrlrange="0 0.034" forcerange="-40 40"/>
+  </actuator>
+
+  <sensor>
+    <framepos name="palm_position" objtype="site" objname="palm_site"/>
+    <framepos name="plug_position" objtype="site" objname="plug_tip_site"/>
+    <framepos name="socket_position" objtype="site" objname="socket_goal"/>
+    <framelinvel name="plug_velocity" objtype="body" objname="plug"/>
+    <jointpos name="collar_angle" joint="collar_twist"/>
+    <jointvel name="collar_speed" joint="collar_twist"/>
+    <jointpos name="button_depth" joint="verify_press"/>
+    <touch name="thumb_contact" site="thumb_pad"/>
+    <touch name="index_contact" site="index_pad"/>
+    <touch name="middle_contact" site="middle_pad"/>
+    <touch name="ring_contact" site="ring_pad"/>
+    <touch name="little_contact" site="little_pad"/>
+    <touch name="button_contact" site="button_touch"/>
+  </sensor>
+</mujoco>

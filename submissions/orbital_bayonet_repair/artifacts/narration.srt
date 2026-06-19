@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:04,800
+Boot sensors and inspect the damaged power panel.
+
+2
+00:00:04,800 --> 00:00:13,200
+Approach with the five fingers pre-shaped around the plug.
+
+3
+00:00:13,200 --> 00:00:20,400
+Close all five fingers and balance fingertip contact.
+
+4
+00:00:20,400 --> 00:00:28,800
+Reject injected camera bias using frame-sensor feedback.
+
+5
+00:00:28,800 --> 00:00:36,600
+Align the key and perform compliant connector insertion.
+
+6
+00:00:36,600 --> 00:00:43,200
+Rotate the bayonet collar to its mechanical stop.
+
+7
+00:00:43,200 --> 00:00:49,200
+Apply a proof-load impulse and recover measured displacement.
+
+8
+00:00:49,200 --> 00:00:55,200
+Press the guarded verification channel after lock confirmation.
+
+9
+00:00:55,200 --> 00:01:00,000
+Hold safe pose and export states, actions, contacts, and labels.

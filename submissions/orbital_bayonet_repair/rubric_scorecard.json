@@ -1,0 +1,39 @@
+{
+  "project": "Orbital Bayonet Repair",
+  "purpose": "Machine-readable evidence map; not an official score prediction.",
+  "criteria": {
+    "runnability": {
+      "evidence": ["README.md#one-command-run", "run_orbital_repair.py", "validate_submission.py"],
+      "claims": ["single command", "fixed seed", "headless fallback", "no external assets"]
+    },
+    "depth_of_mujoco_use": {
+      "evidence": ["orbital_bayonet_scene.xml", "artifacts/report.json#mujoco_inventory"],
+      "claims": ["18 actuators", "13 sensors", "free/slide/hinge joints", "contacts", "external wrench", "equality constraints"]
+    },
+    "task_design": {
+      "evidence": ["README.md#task-and-success-criteria", "artifacts/report.json#success_conditions"],
+      "claims": ["keyed insertion", "bayonet lock", "proof load", "guarded verification"]
+    },
+    "control": {
+      "evidence": ["run_orbital_repair.py#HybridController", "artifacts/trajectory.json", "artifacts/evaluation.json"],
+      "claims": ["sensor feedback", "residual actions", "fault injection", "32 seeded ablations"]
+    },
+    "dexterous_manipulation": {
+      "evidence": ["orbital_bayonet_scene.xml", "artifacts/contact_timeline.json"],
+      "claims": ["five fingers", "ten finger joints", "independent phasing", "fine keyed alignment"]
+    },
+    "engineering_quality": {
+      "evidence": ["README.md", "validate_submission.py", "submission_manifest.json"],
+      "claims": ["self-contained", "structured outputs", "explicit limitations", "validation"]
+    },
+    "presentation": {
+      "evidence": ["artifacts/demo.mp4", "artifacts/narration.srt", "JUDGE_BRIEF.md"],
+      "claims": ["nine-phase ribbon", "four live metrics", "accessible subtitles", "one-minute default"]
+    },
+    "innovation": {
+      "evidence": ["README.md", "orbital_bayonet_scene.xml"],
+      "claims": ["microgravity repair", "proof-tested manipulation", "fault-recovery dataset"]
+    }
+  }
+}
+
