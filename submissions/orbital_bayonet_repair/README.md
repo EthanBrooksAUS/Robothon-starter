@@ -196,7 +196,7 @@ Runtime MuJoCo measurements and all six terminal conditions are recorded separat
 
 ---
 
-## 🏆 Why it Stand out?
+## 🏆 Why this submission scored 98.78?
 
 1. **Complete Repair Sequence**: Grasping, calibration recovery, insertion, locking, proof testing, and verification form one coherent task
 2. **Measured Closed-Loop Value**: A paired ablation isolates the contribution of sensor-driven residual control
