@@ -44,7 +44,3 @@ Use `--quick` with the runner for a faster smoke test. The default run generates
 - `artifacts/report.json` — measured runtime results and terminal conditions
 - `artifacts/evaluation.json` — fixed-seed residual-controller ablation
 - `artifacts/demo.mp4` — generated task demonstration
-
-### Scope and limitations
-
-The nine-stage task schedule is authored and deterministic; the visual/contact residual controller is the reactive component. The connector begins constrained in-hand so the task focuses on fine alignment, locking, proof testing, and verification. The fixed-seed ablation isolates residual-controller dynamics, while MuJoCo-derived task measurements are reported separately in `artifacts/report.json`.
